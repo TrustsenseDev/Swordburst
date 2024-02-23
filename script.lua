@@ -30,6 +30,13 @@ local connections = {} do
     end
 end
 
+local Settings = {
+    selectedNPC = "Razor Boar",
+    selectedQuest = "1",
+    autofarm = false,
+    autoquest = false,
+}
+
 local toolkit = {} do
     function toolkit.goto(position)
         local newPosition = CFrame.new(position.X, position.Y - 5, position.Z)
@@ -72,6 +79,10 @@ local toolkit = {} do
         return closestMob
     end
 
+    function toolkit.attack(mobs)
+        ReplicatedStorage.Systems.Combat.PlayerAttack:FireServer({mobs})
+    end
+
     function toolkit.autoFarm(mob: string)
         if not mob then return end
         local target = toolkit.getClosestMob(mob)
@@ -91,6 +102,11 @@ local toolkit = {} do
         end
 
         toolkit.goto(targetRoot.Position)
+
+        while Settings.autofarm do
+            toolkit.attack(target)
+            task.wait(0.5)
+        end
     end
 end
 
@@ -110,13 +126,6 @@ local charAddedConn = client.CharacterAdded:Connect(characterAdded)
 characterAdded(localChar)
 
 connections:add(charAddedConn)
-
-local Settings = {
-    selectedNPC = "Razor Boar",
-    selectedQuest = "1",
-    autofarm = false,
-    autoquest = false,
-}
 
 local Material = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kinlei/MaterialLua/master/Module.lua"))()
 
