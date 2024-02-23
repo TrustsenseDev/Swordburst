@@ -35,10 +35,9 @@ end
 
 local toolkit = {} do
     function toolkit.goto(position)
-        local newPosition = Vector3.new(position.X, position.Y - 5, position.Z)
+        local newPosition = CFrame.new(position.X, position.Y - 5, position.Z)
 
         if not localRoot then return end
-        localRoot.Position = newPosition
     end
 
     function toolkit.takeQuest(questNum)
@@ -85,13 +84,6 @@ local toolkit = {} do
     end
 end
 
-_G.run = true
-
-while _G.run do
-    toolkit.autoFarm(selectedNPC)
-    task.wait()
-end
-
 local function characterAdded(char)
     localChar = char
     localHum = localChar:WaitForChild("Humanoid")
@@ -108,3 +100,45 @@ local charAddedConn = client.CharacterAdded:Connect(characterAdded)
 characterAdded(localChar)
 
 connections:add(charAddedConn)
+
+local Library = loadstring(game:GetObjects("rbxassetid://7657867786")[1].Source)("Pepsi's UI Library")
+local Window = Library:CreateWindow({
+    Name = 'Pepsi Library',
+    Themeable = {
+        Info = 'Discord Server: VzYTJ7Y',
+        Credit = true,
+    },
+    DefaultTheme = shared.themename or '{"__Designer.Colors.main":"4dbed9"}'
+})
+
+local GeneralTab = Window:CreateTab({
+    Name = 'General'
+})
+
+local Section = GeneralTab:CreateSection({
+    Name = 'Section Number 1',
+    Side = 'Right'
+})
+
+local Label = Section:CreateLabel({
+    Text = 'Label'
+})
+
+local Toggle = Section:AddToggle({
+    Name = 'Autofarm',
+    Value = true,
+    Flag = 'autofarm',
+    Locked = true,
+    Keybind = {
+        Flag = 'keybind',
+        Mode = 'Hold',
+        Value = Enum.KeyCode.F
+    },
+    Callback = function( state )
+        if ( state ) then
+            print('On')
+        else
+            print('Off')
+        end
+    end
+})
