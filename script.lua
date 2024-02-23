@@ -36,6 +36,8 @@ end
 local toolkit = {} do
     function toolkit.goto(position)
         local newPosition = Vector3.new(position.X, position.Y - 5, position.Z)
+
+        if not localRoot then return end
         localRoot.Position = newPosition
     end
 
