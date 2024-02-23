@@ -6,6 +6,7 @@ if not game:IsLoaded() then
     game.Loaded:Wait()
 end
 
+local PhysicsService = game:GetService("PhysicsService")
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
@@ -68,6 +69,16 @@ local toolkit = {} do
         local targetRoot = target:FindFirstChild("HumanoidRootPart")
         if not targetRoot then return end
 
+        local function setCollisionGroup(part)
+            if part:IsA("BasePart") then
+                PhysicsService:SetPartCollisionGroup(part, "NoCharacterCollision")
+            end
+        end
+
+        for _, part in pairs(localChar:GetDescendants()) do
+            setCollisionGroup(part)
+        end
+
         toolkit.goto(targetRoot.Position)
     end
 end
@@ -76,7 +87,7 @@ _G.run = true
 
 while _G.run do
     toolkit.autoFarm(selectedNPC)
-    task.wait(0.1)
+    task.wait()
 end
 
 local charAddedConn = localChar.CharacterAdded:Connect(function(char)
