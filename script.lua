@@ -37,6 +37,8 @@ local Settings = {
     autoquest = false,
 }
 
+local enemy_target = nil
+
 local toolkit = {} do
     function toolkit.goto(position)
         local newPosition = CFrame.new(position.X, position.Y - 5, position.Z)
@@ -102,13 +104,7 @@ local toolkit = {} do
         end
 
         toolkit.goto(targetRoot.Position)
-
-        coroutine.wrap(function()
-            while Settings.autofarm do
-                toolkit.attack(target)
-                task.wait(0.5)
-            end
-        end)()
+        enemy_target = target
     end
 end
 
@@ -164,3 +160,10 @@ do
         Options = toolkit.getMobsNames()
     })
 end
+
+task.spawn(function()
+    while Settings.autofarm do
+        toolkit.attack(enemy_target)
+        task.wait(0.5)
+    end
+end)
