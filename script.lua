@@ -103,10 +103,12 @@ local toolkit = {} do
 
         toolkit.goto(targetRoot.Position)
 
-        while Settings.autofarm do
-            toolkit.attack(target)
-            task.wait(0.5)
-        end
+        coroutine.wrap(function()
+            while Settings.autofarm do
+                toolkit.attack({target})
+                task.wait(0.25)
+            end
+        end)()
     end
 end
 
