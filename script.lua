@@ -164,6 +164,6 @@ end
 task.spawn(function()
     while Settings.autofarm do
         toolkit.attack(enemy_target)
-        task.wait(0.5)
+        task.wait(0.25)
     end
 end)
