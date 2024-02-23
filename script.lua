@@ -106,7 +106,7 @@ local toolkit = {} do
         coroutine.wrap(function()
             while Settings.autofarm do
                 toolkit.attack({target})
-                task.wait(0.25)
+                task.wait(0.5)
             end
         end)()
     end
