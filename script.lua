@@ -92,10 +92,19 @@ while _G.run do
     task.wait()
 end
 
-local charAddedConn = localChar.CharacterAdded:Connect(function(char)
+local function characterAdded(char)
     localChar = char
     localHum = localChar:WaitForChild("Humanoid")
     localRoot = localChar:WaitForChild("HumanoidRootPart")
-end)
+
+    for _, part in pairs(localChar:GetDescendants()) do
+        if part:IsA("BasePart") then
+            PhysicsService:SetPartCollisionGroup(part, "NoCharacterCollision")
+        end
+    end
+end
+
+local charAddedConn = client.CharacterAdded:Connect(characterAdded)
+characterAdded(localChar)
 
 connections:add(charAddedConn)
