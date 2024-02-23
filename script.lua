@@ -34,7 +34,8 @@ end
 
 local toolkit = {} do
     function toolkit.goto(position)
-        localRoot.Position = position
+        local newPosition = Vector3.new(position.X, position.Y - 5, position.Z)
+        localRoot.Position = newPosition
     end
 
     function toolkit.takeQuest(questNum)
